@@ -15,6 +15,8 @@ import Shirts from "views/admin/Shirts.js";
 import Settings from "views/admin/Settings.js";
 import Sales from "views/admin/Sales.js";
 import Users from "views/admin/Users.js";
+import Catalogues from "views/admin/Catalogues.js";
+import Stores from "views/admin/Stores.js";
 
 const Admin = () => {
   return (
@@ -28,9 +30,11 @@ const Admin = () => {
           <Switch>
             <Route path="/" exact component={Dashboard} />
             <Route path="/shirts" exact component={Shirts} />
+            <Route path="/catalogues" exact component={Catalogues} />
             <Route path="/settings" exact component={Settings} />
             <Route path="/sales" exact component={Sales} />
             <Route path="/users" exact component={Users} />
+            <Route path="/stores" exact component={Stores} />
           </Switch>
           <FooterAdmin />
         </div>

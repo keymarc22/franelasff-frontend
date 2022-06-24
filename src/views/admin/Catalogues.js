@@ -6,20 +6,20 @@ import { useGetItems } from "hooks/useGetItems";
 
 // components
 
-import CardShirts from "components/Cards/CardShirts.js";
+import CardCatalogues from "components/Cards/CardCatalogues.js";
 
-const Shirts = () => {
-  const payload = useGetItems('http://localhost:3000/api/v1/shirts');
+const Catalogues = () => {
+  const payload = useGetItems('http://localhost:3000/api/v1/catalogues');
 
   return (
     <React.Fragment>
       <div className="flex flex-wrap mt-4">
         <div className="w-full mb-12 px-4">
-          <CardShirts items={payload.items}/>
+          <CardCatalogues items={payload.items} />
         </div>
       </div>
     </React.Fragment>
   )
 }
 
-export default Shirts;
+export default Catalogues;
