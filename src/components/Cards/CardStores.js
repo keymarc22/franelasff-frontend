@@ -1,11 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
+
+// hooks
+
+import { AppContext } from "context/AppContext";
+import { useGetItems } from "hooks/useGetItems";
 
 // components
 
 import TableDropdown from "components/Dropdowns/TableDropdown.js";
+import Card from "components/Skeleton/Card";
 
-export default function CardStores({ color, items }) {
+export default function CardStores({ color }) {
+  const { user, setLoading, loading } = useContext(AppContext);
+  const { items, errors }= useGetItems('https://franelasffapi.herokuapp.com/api/v1/stores', setLoading, user.headers);
+
   return (
     <>
       <div
@@ -65,24 +74,32 @@ export default function CardStores({ color, items }) {
               </tr>
             </thead>
 
+            {loading && <Card titles={['Name', 'Location']}/>}
 
-            <tbody>
-              {items.map(item => (
-                <tr key={item.id}>
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                    {item.name}
-                  </td>
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                    {item.location}
-                  </td>
+            {items &&
+              <tbody>
+                {items.map(item => (
+                  <tr key={item.id}>
+                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                      {item.name}
+                    </td>
+                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                      {item.location}
+                    </td>
 
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap text-right">
-                    <TableDropdown />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap text-right">
+                      <TableDropdown />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            }
+
           </table>
+  
+          {errors &&
+            <div className="text-center mt-5 mb-5">Not data found</div>
+          }
         </div>
       </div>
     </>

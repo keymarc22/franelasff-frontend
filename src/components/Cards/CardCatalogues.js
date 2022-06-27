@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
+
+// hooks
+
+import { AppContext } from "context/AppContext";
+import { useGetItems } from "hooks/useGetItems";
 
 // components
 
 import TableDropdown from "components/Dropdowns/TableDropdown.js";
+import Card from "components/Skeleton/Card";
 
-export default function CardCatalogues({ color, items }) {
+export default function CardCatalogues({ color }) {
+  const { user, setLoading, loading } = useContext(AppContext);
+  const { items, errors } = useGetItems('https://franelasffapi.herokuapp.com/api/v1/catalogues', setLoading, user.headers);
+
   return (
-    <>
+    <React.Fragment>
       <div
         className={
           "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded " +
@@ -74,28 +83,38 @@ export default function CardCatalogues({ color, items }) {
                 ></th>
               </tr>
             </thead>
-            <tbody>
-              {items.map(item => (
-                <tr key={item.id}>
-                  <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
-                    {item.title}
-                  </th>
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                    {item.description}
-                  </td>
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                    {item.shirts.length}
-                  </td>
-                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
-                    <TableDropdown />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+
+            {loading && <Card titles={['Title', 'Description', 'N-Shirts']}/>}
+
+            {items && !loading &&
+              <tbody>
+                {items.map(item => (
+                  <tr key={item.id}>
+                    <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
+                      {item.title}
+                    </th>
+                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                      {item.description}
+                    </td>
+                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                      {item.shirts.length}
+                    </td>
+                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
+                      <TableDropdown />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            }
           </table>
+
+          {errors || (!items.length > 0) && !loading &&
+            <div className="text-center mt-5 mb-5">Not data found</div>
+          }
+
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 }
 

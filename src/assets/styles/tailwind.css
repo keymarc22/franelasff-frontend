@@ -1097,6 +1097,10 @@ select {
   background-color: rgba(99, 102, 241, var(--tw-bg-opacity));
 }
 
+.bg-primary {
+  --tw-bg-opacity: 1;
+  background-color: #0170BF;
+}
 .bg-lightBlue-200 {
   --tw-bg-opacity: 1;
   background-color: rgba(186, 230, 253, var(--tw-bg-opacity));
@@ -2359,6 +2363,11 @@ select {
 .text-red-500 {
   --tw-text-opacity: 1;
   color: rgba(239, 68, 68, var(--tw-text-opacity));
+}
+
+.text-primary {
+  --tw-text-opacity: 1;
+  color: #0170BF;
 }
 
 .text-blueGray-100 {

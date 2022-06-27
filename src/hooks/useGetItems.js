@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const useGetItems = (API) => {
+const useGetItems = (API, setLoading, headers) => {
   const [items, setItems] = useState([]);
+  const [errors, setErrors] = useState(null);
 
   useEffect(() => {
     requestItems();
@@ -10,14 +11,16 @@ const useGetItems = (API) => {
 
   const requestItems = async () => {
     try {
-      const response = await axios.get(API);
+      const response = await axios.get(API, { headers });
       setItems(response.data);
     } catch (error) {
-      console.log(error)
+      setErrors(error)
     }
+
+    setLoading(false);
   }
 
-  return { items }
+  return { items, errors }
 }
 
 export { useGetItems };

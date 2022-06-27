@@ -1,12 +1,19 @@
 /*eslint-disable*/
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 
+// components
 import NotificationDropdown from "components/Dropdowns/NotificationDropdown.js";
 import UserDropdown from "components/Dropdowns/UserDropdown.js";
 
+// hooks
+
+import { AppContext } from "context/AppContext";
+
 export default function Sidebar() {
-  const [collapseShow, setCollapseShow] = React.useState("hidden");
+  const { logout } = useContext(AppContext)
+  const [collapseShow, setCollapseShow] = React.useState("hidden"); 
+
   return (
     <>
       <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6">
@@ -219,15 +226,14 @@ export default function Sidebar() {
                   Settings
                 </Link>
               </li>
-              <li className="items-center">
-                <Link
+              <li className="items-center cursor-pointer" onClick={logout}>
+                <span
                   className={
                     "text-xs uppercase py-3 font-bold block " +
                     (window.location.href.indexOf("/logout") !== -1
                       ? "text-lightBlue-500 hover:text-lightBlue-600"
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
-                  to="/logout"
                 >
                   <i
                     className={
@@ -238,7 +244,7 @@ export default function Sidebar() {
                     }
                   ></i>{" "}
                   Log out
-                </Link>
+                </span>
               </li>
             </ul>
           </div>

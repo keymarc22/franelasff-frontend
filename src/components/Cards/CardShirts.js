@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
+
+// hooks
+
+import { AppContext } from "context/AppContext";
+import { useGetItems } from "hooks/useGetItems";
 
 // components
 
 import TableDropdown from "components/Dropdowns/TableDropdown.js";
+import Card from "components/Skeleton/Card";
 
-export default function CardShirts({ color, items }) {
+export default function CardShirts({ color }) {
+  const { user, setLoading, loading } = useContext(AppContext);
+  const { items, errors } = useGetItems('https://franelasffapi.herokuapp.com/api/v1/shirts', setLoading, user.headers);
+
   return (
-    <>
+    <React.Fragment>
       <div
         className={
           "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded " +
@@ -82,7 +91,7 @@ export default function CardShirts({ color, items }) {
                       : "bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700")
                   }
                 >
-                  quantity
+                  Quantity
                 </th>
                 <th
                   className={
@@ -105,6 +114,7 @@ export default function CardShirts({ color, items }) {
               </tr>
             </thead>
 
+            {loading && <Card titles={['Code', 'Print', 'Size', 'Color', 'Quantity', 'Images']}/>}
 
             <tbody>
               {items.map(item => (
@@ -155,9 +165,13 @@ export default function CardShirts({ color, items }) {
               ))}
             </tbody>
           </table>
+
+          {errors || (!items.length > 0) && !loading &&
+            <div className="text-center mt-5 mb-5">Not data found</div>
+          }
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 }
 

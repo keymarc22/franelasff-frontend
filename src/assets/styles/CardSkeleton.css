@@ -1,0 +1,35 @@
+tbody tr {
+  border-bottom: 1px solid  #efefef;
+}
+
+@keyframes placeHolderShimmer {
+  0% {
+   background: #ececec;
+ }
+ 
+ 30% {
+   background: #F7F7F7;
+ }
+
+ 50% {
+   background: #ececec;
+ }
+ 
+ 80% {
+   background: #F7F7F7;
+ }
+ 
+ 100% {
+   background: #ececec;
+ }
+}
+
+.loading-animation {
+  height: 1.5rem;
+  animation: placeHolderShimmer 3s infinite;
+}
+.loading-animation.option{
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 50%;
+}

@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Register() {
+export default function RecoverPassword() {
   return (
     <>
       <div className="container mx-auto px-4 h-full">
